@@ -88,7 +88,6 @@ class PayflowProClient(object):
                 args.append('%s=%s' % (key, value))
         args.sort()
         parmlist = '&'.join(args)        
-        self.log.debug(u"Request PARMLIST: %s" % parmlist)
         return parmlist
     
     def _parse_parmlist(self, parmlist):
