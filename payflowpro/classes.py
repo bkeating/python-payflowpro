@@ -14,23 +14,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 from copy import deepcopy
-from itertools import izip
+import re
 
 class ValidationError(Exception):
     def __init__(self, message):
         self.message = message
 
 class Field(object):
-    def __init__(self, required=False, default=None):
+    def __init__(self, required=False, default=None, processor=None):
         self.required = required
         self.default =  default
         self._value = None
+        self._processor = processor
 
     def get_value(self):
         return self._value or self.default
     
     def set_value(self, value):
-        self._value = value
+        if self._processor:
+            self._value = self._processor(value)
+        else:
+            self._value = value
         
     value = property(get_value, set_value)
     
@@ -137,7 +141,7 @@ class PayflowProObject(PayflowProObjectBase):
     __metaclass__ = DeclarativeFieldsMetaclass
     
 class CreditCard(PayflowProObject):
-    acct = Field(required=True)
+    acct = Field(required=True, processor=lambda val:re.sub(r'\s', '', val))
     expdate = Field()
     cvv2 = Field()
     tender = Field(default="C")
