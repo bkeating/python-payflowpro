@@ -140,8 +140,15 @@ class PayflowProObjectBase(object):
 class PayflowProObject(PayflowProObjectBase):
     __metaclass__ = DeclarativeFieldsMetaclass
     
+
+def remove_whitespace(value):
+    if isinstance(value, basestring):
+        return re.sub(r'\s', '', value)
+    else:
+        return value
+
 class CreditCard(PayflowProObject):
-    acct = Field(required=True, processor=lambda val:re.sub(r'\s', '', val))
+    acct = Field(required=True, processor=remove_whitespace)
     expdate = Field()
     cvv2 = Field()
     tender = Field(default="C")
@@ -336,3 +343,5 @@ def parse_parameters(payflowpro_response_data):
         result_objects.append(RecurringPayments(payments=payments))
         
     return (result_objects, unconsumed_data,)
+    
+    
