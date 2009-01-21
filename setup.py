@@ -3,7 +3,8 @@ Based entirely on Django's own ``setup.py``.
 """
 import os
 from distutils.command.install import INSTALL_SCHEMES
-from distutils.core import setup
+# from distutils.core import setup
+from setuptools import setup
 
 def fullsplit(path, result=None):
     """
@@ -56,14 +57,14 @@ setup(
     name = 'python-payflowpro',
     version = version,
     description = 'PayPal PayFlowPro API client library',
-    author = 'James Murty',
-    author_email = 'jamurty@gmail.com',
+    author = 'John D\'Agostino',
+    author_email = 'john.dagostino@gmail.com',
     url = 'http://code.google.com/p/python-payflowpro/',
     packages = packages,
     data_files = data_files,
     classifiers = ['Development Status :: 4 - Beta',
                    'Intended Audience :: Developers',
-                   'License :: OSI Approved :: Apache License',
+                   'License :: OSI Approved :: Apache Software License',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python',
                    'Topic :: Software Development :: Libraries :: Python Modules'])
