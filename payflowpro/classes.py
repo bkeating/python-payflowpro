@@ -1,6 +1,5 @@
 """
 Copyright 2008 Online Agility (www.onlineagility.com)
-Copyright 2009 John D'Agostino (http://www.mercurycomplex.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,20 +21,19 @@ class ValidationError(Exception):
         self.message = message
 
 class Field(object):
-    def __init__(self, required=False, default=None, processor=None):
+    def __init__(self, required=False, default=None):
         self.required = required
         self.default =  default
         self._value = None
-        self._processor = processor
 
     def get_value(self):
         return self._value or self.default
     
+    def clean(self, value):
+        return value
+    
     def set_value(self, value):
-        if self._processor:
-            self._value = self._processor(value)
-        else:
-            self._value = value
+        self._value = self.clean(value)
         
     value = property(get_value, set_value)
     
@@ -45,6 +43,13 @@ class Field(object):
     def is_valid(self):
         if self.required and not self.value:
             raise ValidationError("Required Field")
+            
+class CreditCardField(Field):
+    def clean(self, value):
+        if isinstance(value, basestring):
+            return re.sub(r'\s', '', value)
+        else:
+            return value
                 
 class DeclarativeFieldsMetaclass(type):
     def __new__(cls, name, bases, attrs):
@@ -140,16 +145,9 @@ class PayflowProObjectBase(object):
     
 class PayflowProObject(PayflowProObjectBase):
     __metaclass__ = DeclarativeFieldsMetaclass
-    
-
-def remove_whitespace(value):
-    if isinstance(value, basestring):
-        return re.sub(r'\s', '', value)
-    else:
-        return value
 
 class CreditCard(PayflowProObject):
-    acct = Field(required=True, processor=remove_whitespace)
+    acct = CreditCardField(required=True)
     expdate = Field()
     cvv2 = Field()
     tender = Field(default="C")
@@ -344,5 +342,3 @@ def parse_parameters(payflowpro_response_data):
         result_objects.append(RecurringPayments(payments=payments))
         
     return (result_objects, unconsumed_data,)
-    
-    
