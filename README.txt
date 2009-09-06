@@ -15,3 +15,10 @@ Usage
 -----
 
 Refer to the client.py file in the tests subdirectory for example usage of the client.
+
+To run the tests you will have to edit the file and set the following variables from PayflowPro
+
+PARTNER_ID
+VENDOR_ID
+USERNAME
+PASSWORD
