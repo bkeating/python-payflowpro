@@ -33,7 +33,7 @@ r"""
 ...                             payperiod='WEEK',            
 ...                             desc="I'm just testing..."),
 
->>> client.profile_add(profile=profile, credit_card=credit_card, amount=Amount(amt=30.00))
+>>> responses, unconsumed_data = client.profile_add(profile=profile, credit_card=credit_card, amount=Amount(amt=30.00))
 
 >>> responses, unconsumed_data = client.profile_modify(profile_id='RT0000000002', extras=[Profile(optionaltrx='S', optionaltrxamt=12.00),
 ...                                                     Address(street="123 Somewhere St", city='Sydney', state='NSW', zip="2060"),
