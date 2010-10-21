@@ -1,23 +1,17 @@
 r"""
->>> from payflowpro.classes import (CreditCard, Amount, Profile, 
-...                                 Address, Tracking, Response, CustomerInfo)
+>>> from payflowpro.classes import (CreditCard, Amount, Profile, Address, Tracking, Response, CustomerInfo)
 >>> from payflowpro.client import PayflowProClient, find_classes_in_list, find_class_in_list
 
->>> PARTNER_ID = None
->>> VENDOR_ID = None
->>> USERNAME = None
->>> PASSWORD = None
+>>> PARTNER_ID = "paypal"
+>>> VENDOR_ID = "foobar"
+>>> USERNAME = "foobar"
+>>> PASSWORD = "password123"
 
->>> client = PayflowProClient(partner=PARTNER_ID,
-...                           vendor=VENDOR_ID,
-...                           username=USERNAME,
-...                           password=PASSWORD)
+>>> client = PayflowProClient(partner=PARTNER_ID, vendor=VENDOR_ID, username=USERNAME, password=PASSWORD)
 
 >>> credit_card = CreditCard(acct=5555555555554444, expdate="1212")
 
->>> responses, unconsumed_data = client.sale(credit_card, 
-...                                         Amount(amt=15, currency="AUD"),
-...                                         extras=[Address(street="24285 Elm", zip="00382")])
+>>> responses, unconsumed_data = client.sale(credit_card, Amount(amt=15, currency="AUD"), extras=[Address(street="24285 Elm", zip="00382")])
 
 >>> responses, unconsumed_data = client.authorization(credit_card, Amount(amt=13, currency="AUD"))
 
@@ -27,11 +21,7 @@ r"""
 
 >>> client_inquiry = client.inquiry(original_pnref=transaction_id, extras=[Tracking(verbosity='M')])[0]
     
->>> profile = Profile(profilename='test_profile_002',
-...                             start='07282008',
-...                             term=0,
-...                             payperiod='WEEK',            
-...                             desc="I'm just testing..."),
+>>> profile = Profile(profilename='test_profile_002', start='07282008', term=0, payperiod='WEEK', desc="I'm just testing..."),
 
 >>> responses, unconsumed_data = client.profile_add(profile=profile, credit_card=credit_card, amount=Amount(amt=30.00))
 
