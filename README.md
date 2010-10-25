@@ -1,7 +1,7 @@
-# PayPal's PayflowPro Python Client 
+# PayPal's Payflow Pro Python Client 
 
 ``python-payflowpro`` (or simply ``payflowpro`` within the Python environment) 
-provides an interface to the PayPal PayflowPro API (HTTPS Interface) making it 
+provides an interface to the PayPal Payflow Pro API (HTTPS Interface) making it 
 easy for you to collect and manage payments within your python-based 
 applications.
 
@@ -45,10 +45,9 @@ Additional costs apply.)*
 
 ## Requirements
 
-* Python 2.5+
-* [PayPal "Payflow" Services Account](https://registration.paypal.com/) on PayPal.com
- * Optional: Recurring Billing module
- * Optional: Fraud Protection module
+*   Python 2.5+
+*   [PayPal "Payflow" Services Account](https://registration.paypal.com/) on 
+    PayPal.com
 
 The recurring billing functionality of this library requires the PayflowPro 
 account to have the Recurring Billing module activated (additional costs 
@@ -66,12 +65,9 @@ You can install python-payflowpro one of two ways:
 * ``ln -s /path/to/python-payflowpro/payflowpro /path/to/site-packages/``
 
 Both approaches give you the same thing. You can test your installation by
-starting a interactive prompt:
+starting an interactive prompt:
 
     $ python
-    Python 2.6.1 (r261:67515, Feb 11 2010, 00:51:29) 
-    [GCC 4.2.1 (Apple Inc. build 5646)] on darwin
-    Type "help", "copyright", "credits" or "license" for more information.
     >>> import payflowpro
     >>> payflowpro.VERSION
     (0, 3, 'pre')
