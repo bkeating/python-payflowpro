@@ -75,9 +75,10 @@ r"""
 >>> # Display the Address associated with the profile.
 >>> address = find_class_in_list(Address, responses)
 
->>> # You can grab other classes too:
->>> info = find_class_in_list(CustomerInfo, responses)
-
+>>> # You can grab other classes too...
+>>> info    = find_class_in_list(CustomerInfo, responses)
+>>> profile = find_class_in_list(Profile, responses)
+>>> cc_info = find_class_in_list(CreditCard, responses)
 
 >>> # You can cancel a Recurring Profile. Some call it "freezing". NOTE: If
 >>> # PayPal themselves "cancel" an account, it's dead. You cannot reactivate.

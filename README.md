@@ -59,12 +59,13 @@ verification.
 
 ## Installation
 
-You can install python-payflowpro one of two ways:
+You can install python-payflowpro one of three ways:
 
 * run ``python setup.py install`` within the ``python-payflowpro`` directory
 * ``ln -s /path/to/python-payflowpro/payflowpro /path/to/site-packages/``
+* ``pip install -e git://github.com/bkeating/python-payflowpro.git#egg=django_payflowpro``
 
-Both approaches give you the same thing. You can test your installation by
+Each approaches give you the same result. You can test your installation by
 starting an interactive prompt:
 
     $ python
