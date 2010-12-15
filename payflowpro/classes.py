@@ -327,17 +327,17 @@ def parse_parameters(payflowpro_response_data):
             result_objects.append(obj)
     
     # Special handling of RecurringPayments
-    recurpaycount = 1
+    p_count = 1
     payments = []
-    while ("p_result%d" % recurpaycount) in unconsumed_data:
+    while ("p_result%d" % p_count) in unconsumed_data:
         payments.append(RecurringPayment(
-            p_result = unconsumed_data.pop("p_result%d" % recurpaycount),
-            p_pnref = unconsumed_data.pop("p_pnref%d" % recurpaycount),
-            p_transtate = unconsumed_data.pop("p_transtate%d" % recurpaycount),
-            p_tender = unconsumed_data.pop("p_tender%d" % recurpaycount),
-            p_transtime = unconsumed_data.pop("p_transtime%d" % recurpaycount),
-            p_amt = unconsumed_data.pop("p_amt%d" % recurpaycount)))
-        recurpaycount += 1
+            p_result = unconsumed_data.pop("p_result%d" % p_count, None),
+            p_pnref = unconsumed_data.pop("p_pnref%d" % p_count, None),
+            p_transtate = unconsumed_data.pop("p_transtate%d" % p_count, None),
+            p_tender = unconsumed_data.pop("p_tender%d" % p_count, None),
+            p_transtime = unconsumed_data.pop("p_transtime%d" % p_count, None),
+            p_amt = unconsumed_data.pop("p_amt%d" % p_count, None)))
+        p_count += 1
     if payments:
         result_objects.append(RecurringPayments(payments=payments))
         
