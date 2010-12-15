@@ -1,6 +1,7 @@
 r"""
 >>> from payflowpro.classes import CreditCard, Amount, Profile, Address, \
-...                                 Tracking, Response, CustomerInfo
+...                                 ShippingAddress, Tracking, Response, \
+...                                 CustomerInfo
 >>> from payflowpro.client import PayflowProClient, find_classes_in_list, \
 ...                                 find_class_in_list
 
@@ -61,6 +62,18 @@ r"""
 ...             firstname='Joe', lastname='Bloggs'),
 ...         Tracking(comment1="Order #43",comment2="Submitted by doctest.",)])
 
+>>> # Here is another example with a shipping address, new credit card and 
+>>> # without the optional charge.
+>>> responses, unconsumed_data = client.profile_modify(
+...     profile_id='RT0000000002', extras=[
+...         Profile(profilename="Joe Bloggs", start=052413,),
+...         CreditCard(acct=new_acct,expdate=new_expdate,cvv2=new_cvc,),
+...         ShippingAddress(shiptostreet="123 Main St.", shiptocity="Oakland",
+...             shiptofirstname="Joe", shiptolastname="Bloggs",
+...             shiptostate="CA", shiptocountry="US", shiptozip="94123"),
+...         CustomerInfo(email='test@example.com', 
+...             firstname='Joe', lastname='Bloggs'),
+...         Tracking(comment1="Order #44",comment2="Submitted by doctest.",)])
 
 >>> # Grab a recurring profile's billing history.
 >>> results, unconsumed_data = client.profile_inquiry(

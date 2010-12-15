@@ -7,7 +7,8 @@ applications.
 
 This project is a fork of [James Murty](jamurty@gmail.com) & 
 [John D'Agostino](john.dagostino@gmail.com)'s python-payflowpro project hosted 
-on [Google Code](http://code.google.com/p/python-payflowpro/). 
+on [Google Code](http://code.google.com/p/python-payflowpro/) and is now
+considered the most current and active. 
 
 __Specifically, It allows you to:__
 
@@ -63,7 +64,7 @@ You can install python-payflowpro one of three ways:
 
 * run ``python setup.py install`` within the ``python-payflowpro`` directory
 * ``ln -s /path/to/python-payflowpro/payflowpro /path/to/site-packages/``
-* ``pip install -e git://github.com/bkeating/python-payflowpro.git#egg=django_payflowpro``
+* ``pip install -e git://github.com/bkeating/python-payflowpro.git#egg=python_payflowpro``
 
 Each approach gives you the same result. You can test your installation by
 starting an interactive prompt:
