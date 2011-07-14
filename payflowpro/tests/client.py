@@ -37,6 +37,9 @@ r"""
 >>> # We can now capture the amount authorization
 >>> responses, unconsumed_data = client.capture(transaction_id)
 
+>>> # Or we can void it. This is common when doing $1 Authorizations.
+>>> responses, unconsumed_data = client.void(transaction_id)
+
 >>> # With a transaction ID in hand, We can make inquiries.
 >>> client_inquiry = client.inquiry(
 ...     original_pnref=transaction_id, extras=[Tracking(verbosity='M')])[0]
