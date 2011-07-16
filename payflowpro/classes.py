@@ -44,7 +44,7 @@ class Field(object):
         return self.value
 
     def is_valid(self):
-        if self.required and not self.value:
+        if self.required and self.value is None:
             raise ValidationError("Required Field")
             
 class CreditCardField(Field):
