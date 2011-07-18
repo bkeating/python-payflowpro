@@ -27,7 +27,10 @@ class Field(object):
         self._value = None
 
     def get_value(self):
-        return self._value or self.default
+        if self._value is None:
+            return self.default
+        else:
+            return self._value
     
     def clean(self, value):
         return value
@@ -41,7 +44,7 @@ class Field(object):
         return self.value
 
     def is_valid(self):
-        if self.required and not self.value:
+        if self.required and self.value is None:
             raise ValidationError("Required Field")
             
 class CreditCardField(Field):
