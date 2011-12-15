@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Copyright 2008 Online Agility (www.onlineagility.com)
 Copyright 2009 John D'Agostino (http://www.mercurycomplex.com)
@@ -85,7 +87,10 @@ class PayflowProClient(object):
             if not value is None:
                 # We always use the explicit-length keyname format, to reduce the chance
                 # of requests failing due to unusual characters in parameter values.
-                key = '%s[%d]' % (key.upper(), len(str(value))) 
+                if isinstance(value, unicode):
+                    key = '%s[%d]' % (key.upper(), len(value.encode('utf-8')))
+                else:
+                    key = '%s[%d]' % (key.upper(), len(str(value)))
                 args.append('%s=%s' % (key, value))
         args.sort()
         parmlist = '&'.join(args)        
@@ -171,7 +176,7 @@ class PayflowProClient(object):
                 
                 request = Request(
                     url = self.url_base, 
-                    data = parmlist, 
+                    data = parmlist.encode('utf-8'), 
                     headers = headers)
                     
                 response = urlopen(request)
