@@ -176,7 +176,18 @@ class TimeBounds(PayflowProObject):
     starttime = Field()
     endtime = Field()
 
+class BillToAddress(PayflowProObject):
+    billtostreet = Field(required=True)
+    billtostreet2 = Field(required=True)
+    billtozip = Field()
+    billtocity = Field()
+    billtocountry = Field()
+    billtostate = Field()
+    billtocountry = Field()
+    companyname = Field()
+
 class Address(PayflowProObject):
+    ''' deprecated'''
     street = Field(required=True)
     zip = Field()
     city = Field()
@@ -197,9 +208,17 @@ class ShippingAddress(PayflowProObject):
 
 class CustomerInfo(PayflowProObject):
     custcode = Field()
+    billtoemail = Field()
+    billtofirstname = Field()
+    billtomiddlename = Field()
+    billtolastname = Field()
+    billtophonenum = Field()
+    custip = Field()
+    custbrowser = Field()
+    # the following are deprecated:
+    name = Field()
     email = Field()
     firstname = Field()
-    name = Field()
     middlename = Field()
     lastname = Field()
     phonenum = Field()
