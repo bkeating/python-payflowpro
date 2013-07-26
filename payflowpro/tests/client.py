@@ -67,6 +67,9 @@ r"""
 
 >>> # Here is another example with a shipping address, new credit card and 
 >>> # without the optional charge.
+>>> new_acct = 5105105105105100
+>>> new_expdate = 0215
+>>> new_cvc = 456
 >>> responses, unconsumed_data = client.profile_modify(
 ...     profile_id='RT0000000002', extras=[
 ...         Profile(profilename="Joe Bloggs", start=052413,),
