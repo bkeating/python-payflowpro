@@ -188,9 +188,9 @@ class PayflowProClient(object):
                 results = self._parse_parmlist(result_parmlist)
             except Exception, e:
                 if try_count < self.MAX_RETRY_COUNT:
-                    self.log.warn(u"API request attempt %s of %s failed" % (try_count, self.MAX_RETRY_COUNT), e)
+                    self.log.warn(u"API request attempt %s of %s failed - %%s" % (try_count, self.MAX_RETRY_COUNT), e)
                 else:
-                    self.log.exception(u"Final API request failed", e)
+                    self.log.exception(u"Final API request failed - %s", e)
                     raise e
         
         self.log.debug(u"Parsed PARMLIST: %s" % results)
