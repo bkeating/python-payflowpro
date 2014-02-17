@@ -50,7 +50,7 @@ class Field(object):
 class CreditCardField(Field):
     def clean(self, value):
         if isinstance(value, basestring):
-            return re.sub(r'\s', '', value)
+            return re.sub(r'-', '', re.sub(r'\s', '', value))
         else:
             return value
                 
