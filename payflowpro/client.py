@@ -162,7 +162,6 @@ class PayflowProClient(object):
         ))
         
         parmlist = self._build_parmlist(req_params)
-        print parmlist
         
         headers = {
             'Host': urlparse.urlsplit(self.url_base)[1],

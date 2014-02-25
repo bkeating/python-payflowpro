@@ -160,6 +160,8 @@ class CreditCardPresent(PayflowProObject):
     cvv2 = Field()
     tender = Field(default="C")
 
+##### Express Checkout request classes #####
+
 class SetPaypal(PayflowProObject):
     returnurl = Field(required=True)
     cancelurl = Field(required=True)
