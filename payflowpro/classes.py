@@ -160,6 +160,20 @@ class CreditCardPresent(PayflowProObject):
     cvv2 = Field()
     tender = Field(default="C")
 
+class SetPaypal(PayflowProObject):
+    returnurl = Field(required=True)
+    cancelurl = Field(required=True)
+    tender = Field(default="P")
+
+class GetPaypal(PayflowProObject):
+    token = Field(required=True)
+    tender = Field(default="P")
+
+class DoPaypal(PayflowProObject):
+    token = Field(required=True)
+    payerid = Field(required=True)
+    tender = Field(default="P")
+
 class Amount(PayflowProObject):
     amt = Field(required=True)
     currency = Field()
@@ -260,6 +274,13 @@ class Response(PayflowProObject):
     origresult = Field()
     custref = Field()
     origpnref = Field()
+
+class ExpressResponse(PayflowProObject):
+    token = Field(required=True)
+    payerid = Field()
+    ppref = Field()
+    paymenttype = Field()
+    payerstatus = Field()
 
 class ProfileResponse(PayflowProObject):
     profileid = Field(required=True)

@@ -60,6 +60,9 @@ class PayflowProClient(object):
     """
     URL_BASE_TEST = 'https://pilot-payflowpro.paypal.com'
     URL_BASE_LIVE = 'https://payflowpro.paypal.com'
+
+    REDIRECT_TEST = 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='
+    REDIRECT_LIVE = 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token='
     HOSTPORT = 443
     API_VERSION = '4'
     CLIENT_IDENTIFIER = 'python-payflowpro'
@@ -76,6 +79,11 @@ class PayflowProClient(object):
         self.url_base = url_base
         self.idgenerator = idgenerator
         self.log = logging.getLogger('payflow_pro')
+
+        if self.url_base == self.URL_BASE_TEST:
+            self.redirect = self.REDIRECT_TEST
+        else:
+            self.redirect = self.REDIRECT_LIVE
         
     def _build_parmlist(self, parameters):
         """
@@ -154,6 +162,7 @@ class PayflowProClient(object):
         ))
         
         parmlist = self._build_parmlist(req_params)
+        print parmlist
         
         headers = {
             'Host': urlparse.urlsplit(self.url_base)[1],
@@ -261,6 +270,26 @@ class PayflowProClient(object):
         for item in [amount] + extras:
             params.update(item.data)
         return self._do_request(request_id, params)
+
+    ##### Implementations of paypal express checkout #####
+
+    def set_checkout(self, setpaypal, amount, extras=[]):        
+        params = dict(trxtype = "S", action = "S")
+        for item in [setpaypal, amount] + extras:
+            params.update(item.data)
+        return self._do_request(None, params)
+
+    def get_checkout(self, getpaypal, extras=[]):
+        params = dict(trxtype = "S", action = "G")
+        for item in [getpaypal] + extras:
+            params.update(item.data)
+        return self._do_request(None, params)
+
+    def do_checkout(self, dopaypal, amount, extras=[]):
+        params = dict(trxtype = "S", action = "D")
+        for item in [dopaypal, amount] + extras:
+            params.update(item.data)
+        return self._do_request(None, params)
 
     ##### Implementations of recurring transactions #####
     
