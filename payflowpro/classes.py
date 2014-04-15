@@ -360,10 +360,6 @@ def parse_parameters(payflowpro_response_data):
     # Parse the response data first
     response = build_class(Response, unconsumed_data)
     result_objects = [response]
-
-    if int(response.result) != 0:
-        # Error response
-        return (result_objects, unconsumed_data,)
     
     # Parse the remaining data
     for klass in object.__class__.__subclasses__(PayflowProObject):
