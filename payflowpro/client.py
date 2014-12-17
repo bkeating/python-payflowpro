@@ -3,6 +3,7 @@
 """
 Copyright 2008 Online Agility (www.onlineagility.com)
 Copyright 2009 John D'Agostino (http://www.mercurycomplex.com)
+Copyright 02011 Ben Keating (http://bpk.deepdream.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,13 +17,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import sys, time, re, types, logging
 
-from urllib2 import Request, urlopen, urlparse
+import sys
+import time
+import re
+import types
+import logging
 
-from classes import (CreditCard, Amount, Profile, 
-                     Address, Tracking, Response, parse_parameters)
+from urllib2 import Request
+from urllib2 import urlopen
+from urllib2 import urlparse
 
+from classes import Address
+from classes import Amount
+from classes import CreditCard
+from classes import parse_parameters
+from classes import Profile
+from classes import Response
+from classes import Tracking
 
 """
 TENDER_TYPES:
@@ -45,19 +57,19 @@ TRANSACTION_TYPES:
     'R', # Recurring
 """
 
+
 class CurrentTimeIdGenerator(object):
     def id(self):
-        """
-        Returns the current time in milliseconds as an integer.
-        """
+        """Returns the current time in milliseconds as an integer."""
         return int(time.time() * 1000) # Current time in milliseconds
 
 
 class PayflowProClient(object):
-    """    
-    Payflow Pro client for API version 4 (also known as the HTTPS 
-    API interface)
+    """Payflow Pro Client Object
+    
+    For API version 4 (also known as the HTTPS API interface)
     """
+
     URL_BASE_TEST = 'https://pilot-payflowpro.paypal.com'
     URL_BASE_LIVE = 'https://payflowpro.paypal.com'
 
@@ -89,7 +101,9 @@ class PayflowProClient(object):
         """
         Converts a dictionary of name and value pairs into a 
         PARMLIST string value acceptable to the Payflow Pro API.
+
         """
+
         args = []
         for key, value in parameters.items():
             if not value is None:
@@ -121,6 +135,7 @@ class PayflowProClient(object):
           A=B&C[1]=D
           A[3]=B&B&C[1]=D  (Here, the value of A is "B&B")
           A[1]=B&C[3]=D=7  (Here, the value of C is "D=7")
+          
         """
         parmlist = "&" + parmlist
         name_re = re.compile(r'\&([A-Z0-9_]+)(\[\d+\])?=')
