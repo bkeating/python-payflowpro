@@ -189,7 +189,8 @@ class PayflowProClient(object):
             'Connection': 'close',
             'Content-Type': 'text/namevalue',            
             }
-        self.log.debug(u"Request Headers: %s" % headers)
+
+        self.log.debug(u'Request Headers: %s' % headers)
             
         try_count = 0
         results = None
@@ -206,22 +207,30 @@ class PayflowProClient(object):
                 result_parmlist = response.read()
                 response.close()
                 
-                self.log.debug(u"Result text: %s" % result_parmlist)
+                self.log.debug(
+                    u'Result text: %s' % result_parmlist.decode('utf-8')
+                )
                 
                 results = self._parse_parmlist(result_parmlist)
             except Exception, e:
+                
                 if try_count < self.MAX_RETRY_COUNT:
-                    self.log.warn(u"API request attempt %s of %s failed - %%s" % (try_count, self.MAX_RETRY_COUNT), e)
+                    self.log.warn(
+                        u'API request attempt %s of %s failed - %%s' % (
+                            try_count, self.MAX_RETRY_COUNT), e
+                        )
                 else:
-                    self.log.exception(u"Final API request failed - %s", e)
+                    self.log.exception(u'Final API request failed - %s', e)
                     raise e
         
-        self.log.debug(u"Parsed PARMLIST: %s" % results)
+        self.log.debug(u'Parsed PARMLIST: %s' % results)
         
         # Parse results dictionary into a set of PayflowProObjects
         result_objects, unconsumed_data = parse_parameters(results)
-        self.log.debug(u"Result parsed objects: %s" % result_objects)
-        self.log.debug(u"Unconsumed Data: %s" % unconsumed_data)
+
+        self.log.debug(u'Result parsed objects: %s' % result_objects)
+        self.log.debug(u'Unconsumed Data: %s' % unconsumed_data)
+
         return (result_objects, unconsumed_data)
     
     
@@ -350,7 +359,7 @@ class PayflowProClient(object):
             origprofileid = profile_id, paymentnum = payment_number)
         for item in extras:
             params.update(item.data)
-        return self._do_request(request_id, params)        
+        return self._do_request(request_id, params)         
 
 
 def find_class_in_list(klass, lst):
