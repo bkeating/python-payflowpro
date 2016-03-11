@@ -301,6 +301,12 @@ class PayflowProClient(object):
         for item in [setpaypal, amount] + extras:
             params.update(item.data)
         return self._do_request(None, params)
+        
+   def baid_set_checkout(self, setpaypal, amount, extras=[]):
+      params = dict(trxtype = "A", action = "S")
+      for item in [setpaypal, amount] + extras:
+         params.update(item.data)
+      return self._do_request(None, params)
 
     def get_checkout(self, getpaypal, extras=[]):
         params = dict(trxtype = "S", action = "G")
