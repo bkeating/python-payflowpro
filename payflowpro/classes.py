@@ -188,7 +188,8 @@ class Amount(PayflowProObject):
     taxamt = Field()
 
     def _get_data(self):
-        return dict([(field, obj.value) for field, obj in self.fields.items() ])
+        return dict([(field, obj.value) for field, obj in self.fields.items()])
+    data = property(_get_data)
     
 class Tracking(PayflowProObject):
     comment1 = Field()
