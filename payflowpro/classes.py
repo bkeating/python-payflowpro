@@ -162,6 +162,10 @@ class CreditCardPresent(PayflowProObject):
 
 ##### Express Checkout request classes #####
 
+
+class BillingType(PayflowProObject):
+    billingtype=Field(required=True)
+
 class SetPaypal(PayflowProObject):
     returnurl = Field(required=True)
     cancelurl = Field(required=True)
