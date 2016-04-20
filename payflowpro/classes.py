@@ -267,7 +267,12 @@ class Profile(PayflowProObject):
     aggregateoptionalamt = Field()
     numfailpayments = Field()
     retrynumdays = Field()
+    baid = Field()
     
+    def _get_data(self):
+        return dict([(field, obj.value) for field, obj in self.fields.items() if obj.value ==0 or obj.value])
+    data = property(_get_data)
+   
 class Response(PayflowProObject):
     result = Field(required=True)
     respmsg = Field()

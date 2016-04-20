@@ -197,7 +197,7 @@ class PayflowProClient(object):
         while (results is None and try_count < self.MAX_RETRY_COUNT):
             try:
                 try_count += 1
-                
+                print self.url_base 
                 request = Request(
                     url = self.url_base, 
                     data = parmlist.encode('utf-8'), 
@@ -330,6 +330,12 @@ class PayflowProClient(object):
     def profile_add(self, profile, credit_card, amount, request_id=None, extras=[]):
         params = dict(trxtype = 'R', action = 'A')
         for item in [profile, credit_card, amount] + extras:
+            params.update(item.data)
+        return self._do_request(request_id, params)
+
+    def profile_baid_add(self, profile, amount, request_id=None, extras=[]):
+        params = dict(trxtype = 'R', action = 'A', tender = "P")
+        for item in [profile, amount] + extras:
             params.update(item.data)
         return self._do_request(request_id, params)
 
