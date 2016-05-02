@@ -294,6 +294,12 @@ class PayflowProClient(object):
             params.update(item.data)
         return self._do_request(request_id, params)
 
+    def reference_transaction_baid(self, transaction_type, baid, amount, request_id=None, extras=[]):
+        params = dict(trxtype = transaction_type, baid = baid)
+        for item in [amount] + extras:
+            params.update(item.data)
+        return self._do_request(request_id, params)
+
     ##### Implementations of paypal express checkout #####
 
     def set_checkout(self, setpaypal, amount, extras=[]):        
