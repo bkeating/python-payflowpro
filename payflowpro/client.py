@@ -295,7 +295,8 @@ class PayflowProClient(object):
         return self._do_request(request_id, params)
 
     def reference_transaction_baid(self, transaction_type, baid, amount, request_id=None, extras=[]):
-        params = dict(trxtype = transaction_type, baid = baid,tender='P')
+        params = dict(trxtype = transaction_type, baid = baid,tender='P',
+                      action='D')
         for item in [amount] + extras:
             params.update(item.data)
         return self._do_request(request_id, params)
