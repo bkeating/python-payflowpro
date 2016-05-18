@@ -197,7 +197,6 @@ class PayflowProClient(object):
         while (results is None and try_count < self.MAX_RETRY_COUNT):
             try:
                 try_count += 1
-                print self.url_base 
                 request = Request(
                     url = self.url_base, 
                     data = parmlist.encode('utf-8'), 
