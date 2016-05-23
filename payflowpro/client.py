@@ -197,7 +197,6 @@ class PayflowProClient(object):
         while (results is None and try_count < self.MAX_RETRY_COUNT):
             try:
                 try_count += 1
-                
                 request = Request(
                     url = self.url_base, 
                     data = parmlist.encode('utf-8'), 
@@ -294,12 +293,30 @@ class PayflowProClient(object):
             params.update(item.data)
         return self._do_request(request_id, params)
 
+    def reference_transaction_baid(self, transaction_type, baid, amount, request_id=None, extras=[]):
+        params = dict(trxtype = transaction_type, baid = baid,tender='P',
+                      action='D')
+        for item in [amount] + extras:
+            params.update(item.data)
+        return self._do_request(request_id, params)
+
     ##### Implementations of paypal express checkout #####
 
     def set_checkout(self, setpaypal, amount, extras=[]):        
         params = dict(trxtype = "S", action = "S")
         for item in [setpaypal, amount] + extras:
             params.update(item.data)
+        return self._do_request(None, params)
+        
+    def baid_set_checkout(self, setpaypal, amount, extras=[]):
+        params = dict(trxtype = "A", action = "S")
+        for item in [setpaypal, amount] + extras:
+           params.update(item.data)
+        return self._do_request(None, params)
+      
+    def get_baid(self, token):
+        params = dict(trxtype = "A", action = "X", tender = "P",
+                       token = token)
         return self._do_request(None, params)
 
     def get_checkout(self, getpaypal, extras=[]):
@@ -319,6 +336,12 @@ class PayflowProClient(object):
     def profile_add(self, profile, credit_card, amount, request_id=None, extras=[]):
         params = dict(trxtype = 'R', action = 'A')
         for item in [profile, credit_card, amount] + extras:
+            params.update(item.data)
+        return self._do_request(request_id, params)
+
+    def profile_baid_add(self, profile, amount, request_id=None, extras=[]):
+        params = dict(trxtype = 'R', action = 'A', tender = "P")
+        for item in [profile, amount] + extras:
             params.update(item.data)
         return self._do_request(request_id, params)
 
