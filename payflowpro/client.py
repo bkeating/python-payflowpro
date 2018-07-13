@@ -24,17 +24,23 @@ import re
 import types
 import logging
 
-from urllib2 import Request
-from urllib2 import urlopen
-from urllib2 import urlparse
+try:
+    from urllib.parse import urlsplit
+    from urllib.request import urlopen
+    from urllib.request import Request
+except ImportError:
+    from urllib2 import Request
+    from urllib2 import urlopen
+    from urllib2 import urlparse
+    urlsplit = urlparse.urlsplit
 
-from classes import Address
-from classes import Amount
-from classes import CreditCard
-from classes import parse_parameters
-from classes import Profile
-from classes import Response
-from classes import Tracking
+from .classes import Address
+from .classes import Amount
+from .classes import CreditCard
+from .classes import parse_parameters
+from .classes import Profile
+from .classes import Response
+from .classes import Tracking
 
 """
 TENDER_TYPES:
@@ -109,7 +115,13 @@ class PayflowProClient(object):
             if not value is None:
                 # We always use the explicit-length keyname format, to reduce the chance
                 # of requests failing due to unusual characters in parameter values.
-                if isinstance(value, unicode):
+
+                try:
+                    classinfo = unicode
+                except NameError:
+                    classinfo = str
+
+                if isinstance(value, classinfo):
                     key = '%s[%d]' % (key.upper(), len(value.encode('utf-8')))
                 else:
                     key = '%s[%d]' % (key.upper(), len(str(value)))
@@ -179,7 +191,7 @@ class PayflowProClient(object):
         parmlist = self._build_parmlist(req_params)
         
         headers = {
-            'Host': urlparse.urlsplit(self.url_base)[1],
+            'Host': urlsplit(self.url_base)[1],
             'X-VPS-REQUEST-ID': str(request_id),
             'X-VPS-CLIENT-TIMEOUT': str(self.timeout), # Doc says to do this
             'X-VPS-Timeout': str(self.timeout), # Example says to do this
@@ -203,15 +215,15 @@ class PayflowProClient(object):
                     headers = headers)
                     
                 response = urlopen(request)
-                result_parmlist = response.read()
+                result_parmlist = response.read().decode('utf-8')
                 response.close()
                 
                 self.log.debug(
-                    u'Result text: %s' % result_parmlist.decode('utf-8')
+                    u'Result text: %s' % result_parmlist
                 )
                 
                 results = self._parse_parmlist(result_parmlist)
-            except Exception, e:
+            except Exception as e:
                 
                 if try_count < self.MAX_RETRY_COUNT:
                     self.log.warn(
@@ -390,7 +402,7 @@ def find_class_in_list(klass, lst):
     Returns the first occurrence of an instance of type `klass` in 
     the given list, or None if no such instance is present.
     """
-    filtered = filter(lambda x: x.__class__ == klass, lst)
+    filtered = list(filter(lambda x: x.__class__ == klass, lst))
     if filtered:
         return filtered[0]
     return None

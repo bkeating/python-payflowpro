@@ -49,14 +49,19 @@ class Field(object):
             
 class CreditCardField(Field):
     def clean(self, value):
-        if isinstance(value, basestring):
+        try:
+            classinfo = basestring
+        except NameError:
+            classinfo = str
+
+        if isinstance(value, classinfo):
             return re.sub(r'-', '', re.sub(r'\s', '', value))
         else:
             return value
                 
 class DeclarativeFieldsMetaclass(type):
     def __new__(cls, name, bases, attrs):
-        attrs['base_fields'] = dict([(field_name, attrs.pop(field_name)) for field_name, obj in attrs.items() if isinstance(obj, Field)])
+        attrs['base_fields'] = dict([(field_name, attrs.pop(field_name)) for field_name, obj in attrs.copy().items() if isinstance(obj, Field)])
         new_class = super(DeclarativeFieldsMetaclass, cls).__new__(cls, name, bases, attrs)
         return new_class            
             
@@ -143,11 +148,17 @@ class PayflowProObjectBase(object):
         for name, field in self.fields.items():
             try:
                 field.is_valid()
-            except ValidationError, e:
+            except ValidationError as e:
                 self._errors[name] = e.message                
     
 class PayflowProObject(PayflowProObjectBase):
-    __metaclass__ = DeclarativeFieldsMetaclass
+    pass
+
+body = vars(PayflowProObject).copy()
+body.pop('__dict__', None)
+body.pop('__weakref__', None)
+
+PayflowProObject = DeclarativeFieldsMetaclass(PayflowProObject.__name__, PayflowProObject.__bases__, body)
 
 class CreditCard(PayflowProObject):
     acct = CreditCardField(required=True)
